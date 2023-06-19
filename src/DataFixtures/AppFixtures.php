@@ -12,18 +12,22 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        $faker = Faker\Factory::create('fr_FR');
+        $faker = Faker\Factory::create();
+
 
         for ($i= 0 ; $i< 4 ;$i++){
             $author = new Author();
             $author->setname($faker->lastName);
             $manager->persist($author);
-            for($u= 0 ; $u< 10 ;$u++){
-                $dictons = new Dicton();
-                $dictons->setContent('bla');
-                $dictons->setCreatedAt(new \DateTimeImmutable());
-                $dictons->setAuthor($author);
-                $manager->persist($dictons);
+            $random=rand(10,500);
+            for($u= 0 ; $u< $random ;$u++){
+
+
+                $dicton = new Dicton();
+                $dicton->setContent("faker text");
+                $dicton->setCreatedAt($faker->dateTimeBetween('-5 years', ''));
+                $dicton->setAuthor($author);
+                $manager->persist($dicton);
             }
         }
         $manager->flush();
